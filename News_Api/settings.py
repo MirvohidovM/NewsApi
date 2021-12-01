@@ -16,7 +16,6 @@ import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.conf.global_settings import DATABASES
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -89,9 +88,6 @@ WSGI_APPLICATION = 'News_Api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-
-DATABASES['default'].update(db_from_env)
 
 # DATABASES = {
 #     'default': env.dj_db_url('DATABASE_URL')
@@ -104,24 +100,25 @@ DATABASES['default'].update(db_from_env)
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#
-#         'NAME': 'template1',
-#
-#         'USER': 'postgres',
-#
-#         'PASSWORD': '2183707',
-#
-#         'HOST': 'localhost',
-#
-#         #'PORT': '8000',
-#     }
-# }
+DATABASES = {
+    'default': {
 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
+        'NAME': 'template1',
+
+        'USER': 'postgres',
+
+        'PASSWORD': '2183707',
+
+        'HOST': 'localhost',
+
+        #'PORT': '8000',
+    }
+}
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
