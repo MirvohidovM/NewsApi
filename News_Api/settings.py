@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
+import django_heroku # Configure Django App for Heroku.
+# import dj_database_url
 
 
 
@@ -28,7 +29,7 @@ SECRET_KEY = 'django-insecure-qtozg$^ip5neijsg(hw)jq^9xfue5hk0ejgaf4bamhnj^yn9z8
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'nameofapp.herokuapp.com']
+ALLOWED_HOSTS = ['192.168.100.16']
 
 
 
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
+    #'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,32 +94,31 @@ WSGI_APPLICATION = 'News_Api.wsgi.application'
 #     'default': env.dj_db_url('DATABASE_URL')
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'template1',
-
-        'USER': 'postgres',
-
-        'PASSWORD': '2183707',
-
-        'HOST': 'localhost',
-
-        #'PORT': '8000',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#
+#         'NAME': 'template1',
+#
+#         'USER': 'postgres',
+#
+#         'PASSWORD': '2183707',
+#
+#         'HOST': 'localhost',
+#
+#         #'PORT': '8000',
+#     }
+# }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -155,10 +155,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'#'whitenoise.django.GzipManifestStaticFilesStorage'
+
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = STATIC_DIR
+STATIC_URL = '/home/mirshohid/PycharmProjects/News_Api/static/'
+# STATIC_URL = 'static/'
+
+
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'#'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -167,3 +171,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
